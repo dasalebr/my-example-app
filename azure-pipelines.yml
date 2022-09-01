@@ -16,7 +16,8 @@ steps:
 
 - task: Cache@2
   inputs:
-    key: 'sysdig-cli-scanner-cache | "$(Agent.OS)" | **/sysdig-cli-scanner | **/latest_version.txt | **/db/main.db.meta.json | **/scanner-cache/inlineScannerCache.db'
+    key: |
+      sysdig-cli-scanner-cache | "$(Agent.OS)" | "$(CACHE_FOLDER)/sysdig-cli-scanner" | "$(CACHE_FOLDER)/latest_version.txt" | "$(CACHE_FOLDER)/db/main.db.meta.json" | "$(CACHE_FOLDER)/scanner-cache/inlineScannerCache.db"
     restoreKeys: |
       sysdig-cli-scanner-cache | "$(Agent.OS)"
       sysdig-cli-scanner-cache
