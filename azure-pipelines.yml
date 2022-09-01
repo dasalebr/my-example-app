@@ -8,9 +8,9 @@ variables:
   CACHE_FOLDER: $(Pipeline.Workspace)/cache/
   SYSDIG_SECURE_ENDPOINT: "https://eu1.app.sysdig.com"
   REGISTRY_HOST: "quay.io"
-  REGISTRY_USER: "e_minguez"
-  IMAGE_NAME: "my-example-app"
+  IMAGE_NAME: "e_minguez/my-example-app"
   IMAGE_TAG: "latest"
+  REGISTRY_CONNECTION: $(Quay.io-e_minguez)
 
 steps:
 - task: Docker@2
@@ -18,8 +18,10 @@ steps:
     command: 'build'
     Dockerfile: 'love/Containerfile'
     buildContext: 'love/'
-    repository: $(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME)
+    repository: $(REGISTRY_HOST)/$(IMAGE_NAME)
     tags: $(IMAGE_TAG)
+    addPipelineData: false
+    addBaseImageData: false
 
 - script: |
     curl -sLO https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt
@@ -43,3 +45,13 @@ steps:
   displayName: Run the sysdig-cli-scanner
   env:
     SECURE_API_TOKEN: $(TOKEN)
+
+- task: Docker@2
+  displayName: Push the container image
+  inputs:
+    containerRegistry: $(REGISTRY_CONNECTION)
+    repository: $(IMAGE_NAME)
+    command: push
+    tags: $(IMAGE_TAG)
+    addPipelineData: false
+    addBaseImageData: false
