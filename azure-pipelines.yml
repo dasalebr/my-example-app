@@ -10,7 +10,7 @@ variables:
   REGISTRY_HOST: "quay.io"
   IMAGE_NAME: "e_minguez/my-example-app"
   IMAGE_TAG: "latest"
-  REGISTRY_CONNECTION: $(Quay.io-e_minguez)
+  REGISTRY_CONNECTION: "quayio-e_minguez"
 
 steps:
 - task: Docker@2
