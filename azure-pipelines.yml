@@ -34,6 +34,7 @@ steps:
   displayName: Download the sysdig-cli-scanner if needed
 
 - script: |
+    env
     $(CACHE_FOLDER)/sysdig-cli-scanner \
       --apiurl $(SYSDIG_SECURE_ENDPOINT) \
       --console-log \
@@ -42,4 +43,4 @@ steps:
       docker://$(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME):$(IMAGE_TAG) \
   displayName: Run the sysdig-cli-scanner
   env:
-    SECURE_API_TOKEN: ${TOKEN}
+    SECURE_API_TOKEN: $(TOKEN)
