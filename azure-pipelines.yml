@@ -33,6 +33,7 @@ steps:
   displayName: Download the sysdig-cli-scanner if needed
 
 - script:  |
+    export $(SECURE_API_TOKEN)
     $(CACHE_FOLDER)/sysdig-cli-scanner \
       --apiurl $(SYSDIG_SECURE_ENDPOINT) \
       --console-log \
