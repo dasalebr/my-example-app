@@ -81,6 +81,6 @@ steps:
 
 - script: |
     mkdir -p $(Pipeline.Workspace)/docker
-    docker save -o $(Pipeline.Workspace)/docker/cache.tar $(IMAGE_NAME):$(IMAGE_TAG)
+    docker save -o $(Pipeline.Workspace)/docker/cache.tar $(REGISTRY_HOST)/$(IMAGE_NAME):$(IMAGE_TAG)
   displayName: Docker save
   condition: and(not(canceled()), or(failed(), ne(variables.CACHE_RESTORED, 'true')))
