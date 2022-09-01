@@ -13,6 +13,14 @@ variables:
   REGISTRY_CONNECTION: "quayio-e_minguez"
 
 steps:
+
+- task: Cache@2
+  inputs:
+    key: '"$(Agent.OS)" | **/sysdig-cli-scanner,**/latest_version.txt,**/db/main.db.meta.json,**/scanner-cache/inlineScannerCache.db'
+    restoreKeys: '"$(Agent.OS)"'
+    path: $(CACHE_FOLDER)
+  displayName: Cache sysdig-cli-scanner and databases
+
 - task: Docker@2
   inputs:
     command: 'build'
