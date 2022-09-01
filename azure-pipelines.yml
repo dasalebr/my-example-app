@@ -41,7 +41,7 @@ steps:
       --console-log \
       --dbpath=$(CACHE_FOLDER)/db/ \
       --cachepath=$(CACHE_FOLDER)/scanner-cache/ \
-      docker://$(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME):$(IMAGE_TAG) \
+      docker://$(REGISTRY_HOST)/$(IMAGE_NAME):$(IMAGE_TAG) \
   displayName: Run the sysdig-cli-scanner
   env:
     SECURE_API_TOKEN: $(TOKEN)
