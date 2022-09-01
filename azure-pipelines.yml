@@ -16,10 +16,24 @@ steps:
 
 - task: Cache@2
   inputs:
-    key: '"$(Agent.OS)" | **/sysdig-cli-scanner,**/latest_version.txt,**/db/main.db.meta.json,**/scanner-cache/inlineScannerCache.db'
-    restoreKeys: '"$(Agent.OS)"'
+    key: 'sysdig-cli-scanner-cache | "$(Agent.OS)" | **/sysdig-cli-scanner | **/latest_version.txt | **/db/main.db.meta.json | **/scanner-cache/inlineScannerCache.db'
+    restoreKeys: |
+      sysdig-cli-scanner-cache | "$(Agent.OS)"
+      sysdig-cli-scanner-cache
     path: $(CACHE_FOLDER)
   displayName: Cache sysdig-cli-scanner and databases
+
+- task: Cache@2
+  displayName: Docker cache
+  inputs:
+    key: 'docker | "$(Agent.OS)" | cache'
+    path: $(Pipeline.Workspace)/docker
+    cacheHitVar: CACHE_RESTORED
+
+- script: |
+    docker load -i $(Pipeline.Workspace)/docker/cache.tar
+  displayName: Docker restore
+  condition: and(not(canceled()), eq(variables.CACHE_RESTORED, 'true'))
 
 - task: Docker@2
   inputs:
@@ -63,3 +77,9 @@ steps:
     tags: $(IMAGE_TAG)
     addPipelineData: false
     addBaseImageData: false
+
+- script: |
+    mkdir -p $(Pipeline.Workspace)/docker
+    docker save -o $(Pipeline.Workspace)/docker/cache.tar $(repository):$(tag)
+  displayName: Docker save
+  condition: and(not(canceled()), or(failed(), ne(variables.CACHE_RESTORED, 'true')))
