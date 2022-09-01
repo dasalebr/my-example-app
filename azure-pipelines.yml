@@ -21,7 +21,7 @@ steps:
     repository: $(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME)
     tags: $(IMAGE_TAG)
 
-- script:  |
+- script: |
     curl -sLO https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt
     mkdir -p $(CACHE_FOLDER)/db/
     if [ ! -f $(CACHE_FOLDER)/latest_version.txt ] || [ $(cat ./latest_version.txt) != $(cat $(CACHE_FOLDER)/latest_version.txt) ]; then
@@ -33,9 +33,7 @@ steps:
     fi
   displayName: Download the sysdig-cli-scanner if needed
 
-- script:  |
-    echo $(SECURE_API_TOKEN)
-    echo $(SYSDIG_SECURE_ENDPOINT)
+- script: |
     $(CACHE_FOLDER)/sysdig-cli-scanner \
       --apiurl $(SYSDIG_SECURE_ENDPOINT) \
       --console-log \
@@ -44,4 +42,4 @@ steps:
       docker://$(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME):$(IMAGE_TAG) \
   displayName: Run the sysdig-cli-scanner
   env:
-    SECURE_API_TOKEN: $(TOKEN)
+    SECURE_API_TOKEN: ${TOKEN}
