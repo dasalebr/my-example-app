@@ -41,4 +41,4 @@ steps:
       docker://$(REGISTRY_HOST)/$(REGISTRY_USER)/$(IMAGE_NAME):$(IMAGE_TAG) \
   displayName: Run the sysdig-cli-scanner
   env:
-    SECURE_API_TOKEN: $(SECURE_API_TOKEN)
+    SECURE_API_TOKEN: $(TOKEN)
