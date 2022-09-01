@@ -8,6 +8,7 @@ variables:
   CACHE_FOLDER: $(Pipeline.Workspace)/cache/
   SYSDIG_SECURE_ENDPOINT: "https://eu1.app.sysdig.com"
   REGISTRY_HOST: "quay.io"
+  REGISTRY_USER: "e_minguez"
   IMAGE_NAME: "my-example-app"
   IMAGE_TAG: "latest"
 
